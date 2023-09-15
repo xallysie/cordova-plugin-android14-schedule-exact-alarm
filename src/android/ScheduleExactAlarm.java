@@ -1,4 +1,4 @@
-package cordova-plugin-android14-schedule-exact-alarm;
+package com.android.scheduleexactalarm;
 
 import android.app.Activity;
 import android.content.Context;
