@@ -2,7 +2,6 @@ package com.android.plugins;
 
 import android.app.Activity;
 import android.app.AlarmManager;
-import android.provider.Setings;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
