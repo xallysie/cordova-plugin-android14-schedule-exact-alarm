@@ -1,3 +1,8 @@
+<<<<<<< HEAD
+=======
+var exec = require('cordova/exec');
+
+>>>>>>> 9d3cf143e6a648fa70939a4d046396fa4af51035
 var permissionsName = 'ScheduleExactAlarm';
 
 function ScheduleExactAlarm() {
