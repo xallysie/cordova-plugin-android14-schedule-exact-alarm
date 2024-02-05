@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- id="your.plugin.id"-->
+<plugin xmlns="http://apache.org/cordova/ns/plugins/1.0"
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        id="cordova-plugin-android14-schedule-exact-alarm" 
+        version="1.0.0">
+
+  <name>Schedule Exact Alarm</name>
+
+  <description>Android 14+ (API 34+) permissions request to schedule exact alarms.</description>
+
+  <author>Sally Xie (https://sallyxie.org)</author>
+
+  <engines>
+    <engine name="cordova" version=">=5.0.0"/>
+  </engines>
+
+  <!-- android -->
+  <platform name="android">
+    <js-module src="www/scheduleexactalarm.js" name="ScheduleExactAlarm">
+      <clobbers target="cordova.plugins.scheduleexactalarm" />
+    </js-module>
+
+    <config-file target="res/xml/config.xml" parent="/*">
+      <feature name="ScheduleExactAlarm">
+        <param name="android-package" value="com.android.plugins.ScheduleExactAlarm" />
+      </feature>
+    </config-file>
+
+    <source-file src="src/android/com/android/plugins/ScheduleExactAlarm.java" target-dir="src/com/android/plugins"/>
+  </platform>
+
+  <!-- browser -->
+  <platform name="browser">
+    <js-module src="www/permissions-dummy.js" name="Permissions">
+      <clobbers target="cordova.plugins.permissions" />
+    </js-module>
+  </platform>
+
+  <!-- ios -->
+  <platform name="ios">
+    <js-module src="www/permissions-dummy.js" name="Permissions">
+      <clobbers target="cordova.plugins.permissions" />
+    </js-module>
+  </platform>
+
+</plugin>
