@@ -1,6 +1,6 @@
 {
   "name": "cordova-plugin-android14-schedule-exact-alarm",
-  "version": "2.0.2",
+  "version": "2.0.3",
   "description": "Android 14.0+ API 34+ request to schedule exact alarms.",
   "cordova": {
     "id": "cordova-plugin-android14-schedule-exact-alarm",
