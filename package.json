@@ -1,11 +1,13 @@
 {
   "name": "cordova-plugin-android14-schedule-exact-alarm",
-  "version": "1.0.0",
+  "version": "2.0.1",
   "description": "Android 14.0+ API 34+ request to schedule exact alarms.",
   "cordova": {
     "id": "cordova-plugin-android14-schedule-exact-alarm",
     "platforms": [
-      "android"
+      "android",
+      "ios",
+      "browser"
     ]
   },
   "repository": {
@@ -15,6 +17,12 @@
   "keywords": [
     "ecosystem:cordova",
     "cordova-android"
+  ],
+  "engines": [
+    {
+      "name": "cordova",
+      "version": ">=5.0.0"
+    }
   ],
   "author": "Sally Xie",
   "license": "Apache 2.0",

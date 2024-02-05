@@ -5,7 +5,7 @@ This cordova plugin is designed to support developers who are targeting Android 
 
 The Android alarm scheduling mechanism changed starting in Android 14. In the past, apps were automatically granted permission to schedule exact alarms and reminders. Now this permission must be manually granted by users 
 
-Now the permissions are denied by default. Apps that are not meant to be calendar or alarm clock apps should explain to the user why the app wants permission to schedule exact alarms (e.g., reminders, push notifications, alarms), and then fire an action intent to bring users to the Settings screen to manually allow exact alarms. 
+In Android 14, the permissions are denied by default. Apps that are not meant to be calendar or alarm clock apps should explain to the user why the app wants permission to schedule exact alarms (e.g., reminders, push notifications, alarms), and then fire an action intent to bring users to the Settings screen to manually allow exact alarms. 
 
 Older Android plugins (Android 13 and lower) do not require this new approach or request the necessary permissions.
 
@@ -32,51 +32,22 @@ Usage
 ```javascript
 var ScheduleExactAlarm = cordova.plugins.ScheduleExactAlarm;
 
-ScheduleExactAlarm.checkScheduleExactAlarmPermission(successCallback, errorCallback);
-ScheduleExactAlarm.requestScheduleExactAlarmPermission(successCallback, errorCallback); // deprecated; android documentation recommends requesting permissions through the launchRequest method below. this works but will not be supported in the future
-ScheduleExactAlarm.launchRequestScheduleExactAlarmIntent(successCallback, errorCallback)
+// request permission to schedule exact alarm using the cordova notification permission request module for android 14+, api34+
+ScheduleExactAlarm.requestPermission(
+  function() {
+    console.log('Schedule_Exact_Alarm Permission request successful');
+    },
+  function() {
+    console.log('Schedule_Exact_Alarm Permission request failed');
+    }
+  );
 
 ```
 
 ### Permission Name
 
 Following the Android design. See [Release notes for Android 14](https://developer.android.com/about/versions/14/changes/schedule-exact-alarms).
-```javascript
-// Example
-ScheduleExactAlarm.ACTION_REQUEST_SCHEDULE_EXACT_ALARM;
-ScheduleExactAlarm.SCHEDULE_EXACT_ALARM;
 
-```
-
-## Examples
-```js
-var ScheduleExactAlarm = cordova.plugins.ScheduleExactAlarm;
-```
-
-#### Quick check
-```js
-
-function errorCallback() {
-  console.warn('You have not granted this app permission to schedule exact alarms. Please navigate to Settings > App Info and allow scheduling of exact alarms for this app.');
-  };
-function successCallback( status ) {
-  if( !status.hasPermission ) permerrorCallback();
-  };
-ScheduleExactAlarm.checkScheduleExactAlarmPermission(successCallback, errorCallback);
-
-```
-#### Quick request
-```js
-ScheduleExactAlarm.launchRequestScheduleExactAlarmIntent(successCallback, errorCallback);
-
-function errorCallback() {
-  console.warn('Request to schedule exact alarms and reminders NOT granted.');
-}
-
-function successCallback( status ) {
-  if( !status.hasPermission ) error();
-}
-```
 
 License
 --------

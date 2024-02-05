@@ -1,7 +1,8 @@
-package com.android.scheduleexactalarm;
+package com.android.plugins;
 
 import android.app.Activity;
 import android.app.AlarmManager;
+import android.provider.Setings;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
@@ -30,7 +31,8 @@ public class ScheduleExactAlarm extends CordovaPlugin {
             if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.S) {
                 AlarmManager alarmManager = (AlarmManager) cordova.getActivity().getSystemService(Context.ALARM_SERVICE);
                 if (!alarmManager.canScheduleExactAlarms()) {
-                    Intent intent = new Intent(AlarmManager.ACTION_SCHEDULE_EXACT_ALARM_PERMISSION_STATE_CHANGED);
+                    Intent intent = new Intent(Settings.ACTION_REQUEST_SCHEDULE_EXACT_ALARM);
+                    intent.setData(Uri.parse("package:" + cordova.getActivity().getPackageName()));
                     cordova.getActivity().startActivity(intent);
                     callbackContext.success();
                     return true;
