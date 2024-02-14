@@ -23,23 +23,87 @@ import org.json.JSONObject;
 
 public class ScheduleExactAlarm extends CordovaPlugin {
 
+    private static String TAG = "ScheduleExactAlarm";
+    private static final String ACTION_REQUEST_PERMISSION = "requestPermission";
+    private static final String KEY_ERROR = "error";
+    private static final String KEY_MESSAGE = "message";
+    private static final String KEY_RESULT_PERMISSION = "hasPermission";
+    private static final String SCHEDULE_EXACT_ALARM = "Manifest.permission.SCHEDULE_EXACT_ALARM";
+
+    private CallbackContext permissionsCallback;
+
     @Override
     public boolean execute(String action, JSONArray data, CallbackContext callbackContext) throws JSONException {
 
-        if (action.equals("requestPermission")) {
-            if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.S) {
+        if (ACTION_REQUEST_PERMISSION.equals(action)) {
+            cordova.getThreadPool().execute(new Runnable() {
+                public void run() {
+                    try {
+                        requestPermissionAction(callbackContext, data);
+                    } catch (Exception e){
+                        e.printStackTrace();
+                        JSONObject returnObj = new JSONObject();
+                        addProperty(returnObj, KEY_ERROR, ACTION_REQUEST_PERMISSION);
+                        addProperty(returnObj, KEY_MESSAGE, "Request permission has been denied.");
+                        callbackContext.error(returnObj);
+                        permissionsCallback = null;
+                    }
+                }
+            });
+            return true;
+        } return false;
+    }
+
+    private void requestPermissionAction(CallbackContext callbackContext, JSONArray permissions) throws Exception {
+        if (permissions == null || permissions.length() == 0) {
+            JSONObject returnObj = new JSONObject();
+            addProperty(returnObj, KEY_ERROR, ACTION_REQUEST_PERMISSION);
+            addProperty(returnObj, KEY_MESSAGE, "At least one permission.");
+            callbackContext.error(returnObj);
+        } else {
+            permissionsCallback = callbackContext;
+            String[] permissionArray = getPermissions(permissions);
+            if (permissionArray.length == 1 && SCHEDULE_EXACT_ALARM.equals(permissionArray[0])) {
                 AlarmManager alarmManager = (AlarmManager) cordova.getActivity().getSystemService(Context.ALARM_SERVICE);
                 if (!alarmManager.canScheduleExactAlarms()) {
                     Intent intent = new Intent(Settings.ACTION_REQUEST_SCHEDULE_EXACT_ALARM);
                     intent.setData(Uri.parse("package:" + cordova.getActivity().getPackageName()));
                     cordova.getActivity().startActivity(intent);
-                    callbackContext.success();
-                    return true;
+                    JSONObject returnObj = new JSONObject();
+                    addProperty(returnObj, KEY_RESULT_PERMISSION, false);
+                    callbackContext.success(returnObj);
+                } else {
+                    JSONObject returnObj = new JSONObject();
+                    addProperty(returnObj, KEY_RESULT_PERMISSION, true);
+                    callbackContext.success(returnObj);
                 }
+                return;
             }
-            callbackContext.error("Permission already granted or not needed.");
-            return false;
+            cordova.requestPermissions(this, 0, permissionArray);
         }
-        return false;
+    }
+
+    private String[] getPermissions(JSONArray permissions) {
+        String[] stringArray = new String[permissions.length()];
+        for (int i = 0; i < permissions.length(); i++) {
+            try {
+                stringArray[i] = permissions.getString(i);
+            } catch (JSONException ignored) {
+                //Believe exception only occurs when adding duplicate keys, so just ignore it
+            }
+        }
+        return stringArray;
+    }
+
+    private void addProperty(JSONObject obj, String key, Object value) {
+        try {
+            if (value == null) {
+                obj.put(key, JSONObject.NULL);
+            } else {
+                obj.put(key, value);
+            }
+        } catch (JSONException ignored) {
+            //Believe exception only occurs when adding duplicate keys, so just ignore it
+        }
     }
 }
