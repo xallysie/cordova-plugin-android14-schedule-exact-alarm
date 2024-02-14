@@ -10,7 +10,9 @@ Older Android plugins (Android 13 and lower) do not require this new approach or
 This plugin allows you to make a request to open the **Alarms & Reminders** Setting so that users can toggle-enable the permission to "schedule exact alarms" themselves. They will then use the back arrow at the top of the page to return to your app.
 
 Note that you will probably still need to request permission to send notifications using other plugins. See:
+
 https://github.com/NeoLSN/cordova-plugin-android-permissions
+
 https://github.com/fquirin/cordova-plugin-local-notifications
 
 Installation
