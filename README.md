@@ -7,7 +7,7 @@ The Android alarm scheduling mechanism changed starting in Android 14. In the pa
 
 In Android 14, the permissions are denied by default. Apps that are not meant to be calendar or alarm clock apps should explain to the user why the app wants permission to schedule exact alarms (e.g., reminders, push notifications, alarms), and then fire an action intent to bring users to the Settings screen to manually allow exact alarms. 
 
-Older Android plugins (Android 13 and lower) do not require this new approach or request the necessary permissions.
+Older Android plugins (Android 13 and lower) do not require this new approach or request the necessary permissions. 
 
 Installation
 --------
@@ -22,7 +22,7 @@ or
 cordova plugin add https://github.com/xallysie/cordova-plugin-android14-schedule-exact-alarm.git
 ```
 
-※ Support Android SDK >= 14
+※ Targets Android SDK >= 14
 
 Usage
 --------
@@ -32,15 +32,17 @@ Usage
 ```javascript
 var ScheduleExactAlarm = cordova.plugins.ScheduleExactAlarm;
 
-// request permission to schedule exact alarm using the cordova notification permission request module for android 14+, api34+
-ScheduleExactAlarm.requestPermission(
+if (deviceOS == 1 && device.version >= 14){ // in your app, check if participant is using android 14+
+// request permission to schedule exact alarm by opening the Settings > Alarms & reminders window, so users can then toggle the permission themselves (for android 14+, api34+)
+ScheduleExactAlarm.openAlarmsSetting(
   function() {
-    console.log('Schedule_Exact_Alarm Permission request successful');
+    console.log('Opened Alarms & reminders setting');
     },
   function() {
-    console.log('Schedule_Exact_Alarm Permission request failed');
-    }
+    console.log('Failed to open Alarms & reminders setting');
+    },
   );
+};
 
 ```
 
@@ -52,7 +54,7 @@ Following the Android design. See [Release notes for Android 14](https://develop
 License
 --------
 
-    Copyright (C) 2023 Sally Xie
+    Copyright (C) 2024 Sally Xie
 
     Licensed under the Apache License, Version 2.0 (the "License");
     you may not use this file except in compliance with the License.
