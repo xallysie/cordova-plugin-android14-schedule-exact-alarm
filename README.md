@@ -24,6 +24,14 @@ cordova plugin add https://github.com/xallysie/cordova-plugin-android14-schedule
 
 ※ Targets Android SDK >= 14
 
+Dependencies
+--------
+
+Requires cordova-plugin-device: https://www.npmjs.com/package/cordova-plugin-device
+```bash
+cordova plugin add cordova-plugin-device
+```
+
 Usage
 --------
 
@@ -32,7 +40,7 @@ Usage
 ```javascript
 var ScheduleExactAlarm = cordova.plugins.ScheduleExactAlarm;
 
-if (deviceOS == 1 && device.version >= 14){ // in your app, check if participant is using android 14+
+if (device.version >= 14){ // in your cordova app, check if participant is using android 14+
 // request permission to schedule exact alarm by opening the Settings > Alarms & reminders window, so users can then toggle the permission themselves (for android 14+, api34+)
 ScheduleExactAlarm.openAlarmsSetting(
   function() {
