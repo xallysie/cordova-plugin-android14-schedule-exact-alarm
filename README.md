@@ -19,7 +19,7 @@ Installation
 --------
 
 ```bash
-cordova plugin add cordova-plugin-android-permissions
+cordova plugin add cordova-plugin-android14-schedule-exact-alarm
 ```
 
 or
