@@ -3,11 +3,15 @@ Android Request Schedule Exact Alarm Plugin
 
 This cordova plugin is designed to support developers who are targeting Android 14+ (API 34+), which introduced stricter rules around scheduling exact alarms and reminders.
 
-The Android alarm scheduling mechanism changed starting in Android 14. In the past, apps were automatically granted permission to schedule exact alarms and reminders. Now this permission must be manually granted by users 
+The Android alarm scheduling mechanism changed starting in Android 14. In the past, apps were automatically granted permission to schedule exact alarms and reminders. Now this permission is denied by default and must be manually granted by users. Apps that are not meant to be calendar or alarm clock apps should explain to the user why the app wants permission to schedule exact alarms (e.g., reminders, push notifications, alarms), and then fire an action intent to bring users to the Settings screen to manually allow exact alarms. 
 
-In Android 14, the permissions are denied by default. Apps that are not meant to be calendar or alarm clock apps should explain to the user why the app wants permission to schedule exact alarms (e.g., reminders, push notifications, alarms), and then fire an action intent to bring users to the Settings screen to manually allow exact alarms. 
+Older Android plugins (Android 13 and lower) do not require this new approach or request the necessary permissions.
 
-Older Android plugins (Android 13 and lower) do not require this new approach or request the necessary permissions. 
+This plugin allows you to make a request to open the **Alarms & Reminders** Setting so that users can toggle-enable the permission to "schedule exact alarms" themselves. They will then use the back arrow at the top of the page to return to your app.
+
+Note that you will probably still need to request permission to send notifications using other plugins. See:
+https://github.com/NeoLSN/cordova-plugin-android-permissions
+https://github.com/fquirin/cordova-plugin-local-notifications
 
 Installation
 --------
